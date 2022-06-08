@@ -7,20 +7,16 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-type LoginVal = {
-  email: string;
-  password: string;
-};
+import { TLogin } from "../types/authContext";
 function LoginForm() {
   const {
     register,
     handleSubmit,
     // watch triggers re-render at root of app
-    watch,
     formState: { errors, isValid },
     reset,
-  } = useForm<LoginVal>();
-  const hello = (data: LoginVal) => {
+  } = useForm<TLogin>();
+  const hello = (data: TLogin) => {
     reset();
   };
 
