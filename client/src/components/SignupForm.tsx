@@ -8,12 +8,11 @@ import {
   FormErrorMessage,
   Stack,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { TSignUp } from "../types/authContext";
+import { useAuth } from "./../context/AuthContext";
+import { ToastContainer } from "react-toastify";
 
-type SignupVals = {
-  email: string;
-  password: string;
-  passwordCfm: string;
-};
 function SignupForm() {
   const [disableSignup, setDisableSignup] = useState<boolean>(true);
   const {
@@ -23,14 +22,15 @@ function SignupForm() {
     formState: { errors, isValid },
     setError,
     clearErrors,
-  } = useForm<SignupVals>();
-  console.log(errors);
+  } = useForm<TSignUp>();
+  const { signup } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
-    console.log(`ErrosLen: ${Object.keys(errors).length}`);
     Object.keys(errors).length === 0
       ? setDisableSignup(false)
       : setDisableSignup(true);
   }, [Object.keys(errors).length]);
+
   const emailReg = () => {
     return register("email", {
       required: {
@@ -69,10 +69,7 @@ function SignupForm() {
       onChange: (e) => {
         const pwValue: string = watch().password;
         const cfmPwValue: string = e.target.value;
-        console.log(`pwVal: ${pwValue}`);
-        console.log(`cpw: ${cfmPwValue}`);
         if (pwValue === cfmPwValue) {
-          console.log("TRuee");
           clearErrors(["passwordCfm", "password"]);
           return true;
         } else {
@@ -93,11 +90,20 @@ function SignupForm() {
       },
     });
   };
-  console.log(isValid);
-  const hello = (data: SignupVals) => console.log(data);
+
+  const handleSignUp = async (data: TSignUp) => {
+    try {
+      await signup(data);
+      console.log("Handle Signup");
+    } catch (err) {
+      if (err instanceof Error) {
+        console.log(err.message);
+      }
+    }
+  };
   return (
     <>
-      <form onSubmit={handleSubmit((data) => hello(data))}>
+      <form onSubmit={handleSubmit((data: TSignUp) => handleSignUp(data))}>
         <Stack spacing={3}>
           <FormControl isInvalid={errors.email && true}>
             <FormLabel>Email</FormLabel>
@@ -129,6 +135,7 @@ function SignupForm() {
           </Button>
         </Stack>
       </form>
+      <ToastContainer />
     </>
   );
 }
