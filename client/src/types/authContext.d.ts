@@ -1,12 +1,25 @@
 import React, {ReactNode} from "react"
+export type TSignUp = {
+    email: string,
+    password: string,
+    passwordCfm: string
+}
+export type TLogin = {
+    email: string,
+    password: string
+}
 export interface IAuthContext {
-    signup: () => void,
-    login: () => void,
+    user: any,
+    session: any,
+    sessionTrigger: boolean,
+    signup: (credentials: TSignUp) => void,
+    login: (credentials: TLogin) => void,
+}
+export const AuthStateInitial : AuthContextInterface = {
+    sessionTrigger: false,
+    signup: (credentials: TSignUp) => console.log("signup"),
+    login: (credentials: TLogin) => console.log("Login")
 }
 export type AuthPropsType = {
     children: ReactNode
-}
-export const AuthStateInitial : AuthContextInterface = {
-    singup: () => console.log("signup"),
-    login: () => console.log("Login")
 }
