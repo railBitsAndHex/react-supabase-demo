@@ -1,45 +1,41 @@
-import React from "react"
-import { useForm, SubmitHandler } from "react-hook-form"
+import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import {
   FormErrorMessage,
   FormLabel,
   FormControl,
   Input,
   Button,
-} from "@chakra-ui/react"
-type LoginVal = {
-  email: string
-  password: string
-}
+} from "@chakra-ui/react";
+import { TLogin } from "../types/authContext";
 function LoginForm() {
   const {
     register,
     handleSubmit,
     // watch triggers re-render at root of app
-    watch,
     formState: { errors, isValid },
     reset,
-  } = useForm<LoginVal>()
-  const hello = (data: LoginVal) => {
-    reset()
-  }
+  } = useForm<TLogin>();
+  const hello = (data: TLogin) => {
+    reset();
+  };
 
-  console.log(errors)
+  console.log(errors);
   const emailRegister = () => {
     return register("email", {
       required: "Email is required",
       validate: (value) => {
-        const emailRe = /[0-9]*[a-z]+[0-9]*@([a-z]+\.)+/
+        const emailRe = /[0-9]*[a-z]+[0-9]*@([a-z]+\.)+/;
         // console.log(value.match(emailRe))
-        return value.match(emailRe) !== null
+        return value.match(emailRe) !== null;
       },
-    })
-  }
+    });
+  };
   const pwRegister = () => {
     return register("password", {
       required: "Password is required",
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -55,7 +51,7 @@ function LoginForm() {
         <Button type="submit">Login</Button>
       </form>
     </>
-  )
+  );
 }
 
-export default LoginForm
+export default LoginForm;
