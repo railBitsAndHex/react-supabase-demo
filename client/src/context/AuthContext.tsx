@@ -33,13 +33,14 @@ export const AuthProvider = ({ children }: AuthPropsType) => {
 					.select('*')
 					.eq('email', email)
 					.filter('email_confirmed_at', 'lt', 'now');
+				console.log(data);
 				if (error) {
 					toastError(error.message);
-					return;
+					throw new Error(error.message);
 				}
-				if (data.length > 0) {
+				if (data !== null && data.length > 0) {
 					toastError('This email has already been taken.');
-					return;
+					throw new Error('This email has already been taken!');
 				}
 				console.log(data);
 			} catch (error: unknown) {
@@ -72,7 +73,12 @@ export const AuthProvider = ({ children }: AuthPropsType) => {
 		}
 	};
 	const login = () => {
-		console.log('This is auth contect login');
+		try {
+			console.log('login');
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -81,7 +87,9 @@ export const AuthProvider = ({ children }: AuthPropsType) => {
 				? setUser(supabase.auth.user())
 				: setUser(undefined);
 			if (session !== null) {
+				console.log(e);
 				setSession(session);
+				console.log(session);
 				setSessionTrigger(!sessionTrigger);
 			} else {
 				setSession(undefined);
