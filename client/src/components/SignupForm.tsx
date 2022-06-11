@@ -38,7 +38,7 @@ function SignupForm() {
 				message: 'Email is required'
 			},
 			pattern: {
-				value: /[0-9]*[a-z]+[0-9]*@([a-z]+\.)+/,
+				value: /[0-9]*[a-z]+[0-9]*@([a-z]+[0-9]*[a-z]+\.)+/,
 				message: 'Please enter a valid email format'
 			}
 		});
