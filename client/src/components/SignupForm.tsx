@@ -49,6 +49,10 @@ function SignupForm() {
 				value: true,
 				message: 'Password field is required'
 			},
+			minLength: {
+				value: 6,
+				message: 'Please enter a password of minimum 6 characters!'
+			},
 			validate: (value: string) => {
 				const pwCfmValue: string = watch().passwordCfm;
 				if (pwCfmValue === value) {
@@ -79,6 +83,7 @@ function SignupForm() {
 					});
 				}
 			},
+
 			validate: (value: string) => {
 				const pwValue: string = watch().password;
 				if (pwValue === value) {
