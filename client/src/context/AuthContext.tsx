@@ -73,9 +73,6 @@ export const AuthProvider = ({ children }: AuthPropsType) => {
 
 	useEffect(() => {
 		supabase.auth.onAuthStateChange((e, session) => {
-			console.log('###session###');
-			console.log(session);
-			console.log('###');
 			supabase.auth.user() !== null
 				? setUser(supabase.auth.user())
 				: setUser(undefined);

@@ -95,6 +95,7 @@ function SignupForm() {
 		try {
 			try {
 				await signup(data);
+				navigate('confirmation-email');
 			} catch (error) {
 				if (error instanceof Error) {
 					toastError('Unable to signup! Something went wrong!');
