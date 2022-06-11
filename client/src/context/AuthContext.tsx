@@ -17,11 +17,7 @@ export const AuthProvider = ({ children }: AuthPropsType) => {
 	const [sessionTrigger, setSessionTrigger] = useState<boolean>(false);
 	const signup = async (credentials: TSignUp) => {
 		const { email, password, passwordCfm } = credentials;
-		console.table(credentials);
-		console.log(validation3(email, password, passwordCfm));
-
 		if (!validation3(email, password, passwordCfm)) {
-			console.log(validation3(email, password, passwordCfm));
 			toastError('Invalid params entered!');
 			return;
 		}
@@ -44,7 +40,7 @@ export const AuthProvider = ({ children }: AuthPropsType) => {
 				console.log(data);
 			} catch (error: unknown) {
 				if (error instanceof Error) {
-					console.log(error.message);
+					throw new Error(error.message);
 				}
 			}
 
@@ -55,20 +51,19 @@ export const AuthProvider = ({ children }: AuthPropsType) => {
 					password: password
 				});
 				if (error) {
-					console.error(error);
 					toastError(error.message);
+					throw new Error(error.message);
 				}
 				setUser(user);
 				setSession(session);
-				console.log(user);
 			} catch (error: unknown) {
 				if (error instanceof Error) {
-					console.log(error.message);
+					throw new Error(error.message);
 				}
 			}
-		} catch (err) {
-			if (err instanceof Error) {
-				console.log(err.message);
+		} catch (error) {
+			if (error instanceof Error) {
+				throw new Error(error.message);
 			}
 		}
 	};
