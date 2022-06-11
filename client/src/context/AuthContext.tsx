@@ -7,7 +7,7 @@ import {
 } from './../types/authContext.d';
 import { supabase } from '../supabaseClient';
 import { toastError } from '../utils/toastNotification';
-import { validation3 } from '../utils/validations';
+import { validation3, validationLen1 } from '../utils/validations';
 
 const AuthContext = React.createContext<IAuthContext>(AuthStateInitial);
 export const useAuth = () => useContext(AuthContext);
@@ -19,6 +19,10 @@ export const AuthProvider = ({ children }: AuthPropsType) => {
 		const { email, password, passwordCfm } = credentials;
 		if (!validation3(email, password, passwordCfm)) {
 			toastError('Invalid params entered!');
+			return;
+		}
+		if (!validationLen1(password, 6)) {
+			toastError('Password too short. Min. length required 6 characters');
 			return;
 		}
 		try {
