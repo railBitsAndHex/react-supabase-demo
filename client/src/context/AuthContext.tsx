@@ -34,16 +34,14 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 					.select('*')
 					.eq('email', email)
 					.filter('email_confirmed_at', 'lt', 'now');
-				console.log(data);
 				if (error) {
 					toastError(error.message);
 					throw new Error(error.message);
 				}
 				if (data !== null && data.length > 0) {
-					toastError('This email has already been taken.');
-					throw new Error('This email has already been taken!');
+					const errorMessage = 'This email has already been taken.';
+					throw new Error(errorMessage);
 				}
-				console.log(data);
 			} catch (error: unknown) {
 				if (error instanceof Error) {
 					throw new Error(error.message);
@@ -57,19 +55,20 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 					password: password
 				});
 				if (error) {
-					toastError(error.message);
-					throw new Error(error.message);
+					const errorMessage =
+						'Something went wrong! Unable to create an account. Please try again.';
+					throw new Error(errorMessage);
 				}
 				setUser(user);
 				setSession(session);
 			} catch (error: unknown) {
 				if (error instanceof Error) {
-					throw new Error(error.message);
+					throw error;
 				}
 			}
 		} catch (error) {
 			if (error instanceof Error) {
-				throw new Error(error.message);
+				throw error;
 			}
 		}
 	};
@@ -83,7 +82,6 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 					.eq('email', email)
 					.filter('email_confirmed_at', 'lt', 'now');
 				if (error) {
-					toastError(error.message);
 					throw new Error(error.message);
 				}
 				if (data === null || Object.keys(data).length == 0 || data.length === 0) {
