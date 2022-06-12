@@ -115,7 +115,22 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 			}
 		}
 	};
-
+	const logout = async () => {
+		try {
+			try {
+				const {error} = await supabase.auth.signOut();
+				if (error) {
+					throw new Error(error.message);
+				}
+			} catch (error: unknown) {
+				throw error;
+			}
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				throw error;
+			}
+		}
+	};
 	useEffect(() => {
 		supabase.auth.onAuthStateChange((e, session) => {
 			supabase.auth.user() !== null ? setUser(supabase.auth.user()) : setUser(undefined);
@@ -134,7 +149,8 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 		session,
 		sessionTrigger,
 		signup,
-		login
+		login,
+		logout
 	};
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

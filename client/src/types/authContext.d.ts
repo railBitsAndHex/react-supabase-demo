@@ -14,11 +14,13 @@ export interface IAuthContext {
     sessionTrigger: boolean,
     signup: (credentials: TSignUp) => void,
     login: (credentials: TLogin) => void,
+    logout: () => void
 }
 export const AuthStateInitial : AuthContextInterface = {
     sessionTrigger: false,
     signup: (credentials: TSignUp) => console.log("signup"),
-    login: (credentials: TLogin) => console.log("Login")
+    login: (credentials: TLogin) => console.log("Login"),
+    logout: () => console.log("Logout")
 }
 export type AuthPropsType = {
     children: ReactNode
