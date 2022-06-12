@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import {
-	FormLabel,
-	FormControl,
-	Input,
-	Button,
-	FormErrorMessage,
-	Stack
-} from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import { TSignUp } from '../types/authContext';
-import { useAuth } from './../context/AuthContext';
-import { ToastContainer } from 'react-toastify';
-import { toastError } from '../utils/toastNotification';
+import React, {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {FormLabel, FormControl, Input, Button, FormErrorMessage, Stack} from '@chakra-ui/react';
+import {useNavigate} from 'react-router-dom';
+import {TSignUp} from '../types/authContext';
+import {useAuth} from './../context/AuthContext';
+import {ToastContainer} from 'react-toastify';
+import {toastError} from '../utils/toastNotification';
 function SignupForm() {
 	const [disableSignup, setDisableSignup] = useState<boolean>(true);
 	const {
 		register,
 		handleSubmit,
 		watch,
-		formState: { errors, isValid },
+		formState: {errors, isValid},
 		setError,
 		clearErrors
 	} = useForm<TSignUp>();
-	const { signup } = useAuth();
+	const {signup} = useAuth();
 	const navigate = useNavigate();
 	useEffect(() => {
-		Object.keys(errors).length === 0
-			? setDisableSignup(false)
-			: setDisableSignup(true);
+		Object.keys(errors).length === 0 ? setDisableSignup(false) : setDisableSignup(true);
 	}, [Object.keys(errors).length]);
 
 	const emailReg = () => {
@@ -115,44 +106,22 @@ function SignupForm() {
 	};
 	return (
 		<>
-			<form
-				onSubmit={handleSubmit((data: TSignUp) => handleSignUp(data))}
-			>
+			<form onSubmit={handleSubmit((data: TSignUp) => handleSignUp(data))}>
 				<Stack spacing={3}>
 					<FormControl isInvalid={errors.email && true}>
 						<FormLabel>Email</FormLabel>
-						<Input
-							{...emailReg()}
-							type='email'
-							placeholder='Email'
-						/>
-						<FormErrorMessage>
-							{errors.email && errors.email.message}
-						</FormErrorMessage>
+						<Input {...emailReg()} type='email' placeholder='Email' />
+						<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
 					</FormControl>
 					<FormControl isInvalid={errors.password && true}>
 						<FormLabel>Password</FormLabel>
-						<Input
-							{...passwordReg()}
-							type='password'
-							placeholder='Password'
-						/>
-						<FormErrorMessage>
-							{errors.password && errors.password.message}
-						</FormErrorMessage>
+						<Input {...passwordReg()} type='password' placeholder='Password' />
+						<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
 					</FormControl>
 					<FormControl isInvalid={errors.passwordCfm && true}>
-						<FormLabel htmlFor='passwordCfm'>
-							Confirm Password
-						</FormLabel>
-						<Input
-							{...passwordCfmReg()}
-							type='password'
-							placeholder='Confirm Password'
-						/>
-						<FormErrorMessage>
-							{errors.passwordCfm && errors.passwordCfm.message}
-						</FormErrorMessage>
+						<FormLabel htmlFor='passwordCfm'>Confirm Password</FormLabel>
+						<Input {...passwordCfmReg()} type='password' placeholder='Confirm Password' />
+						<FormErrorMessage>{errors.passwordCfm && errors.passwordCfm.message}</FormErrorMessage>
 					</FormControl>
 					<Button disabled={disableSignup} type='submit'>
 						Sign up
