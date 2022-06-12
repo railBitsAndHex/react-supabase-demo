@@ -1,0 +1,29 @@
+.homepage-section-main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #06d6a0;
+    background-color: black
+}
+.homepage-title {
+    font-size: 4em;
+    font-weight: 700;
+}
+.homepage-div-1{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-30px)
+}
+.homepage-subtitle1 {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+.homepage-login-rdr-btn{
+    margin-top: 15px;
+    color: #2d6a4f;
+}
