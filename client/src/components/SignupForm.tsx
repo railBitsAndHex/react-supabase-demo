@@ -5,7 +5,8 @@ import {useNavigate} from 'react-router-dom';
 import {TSignUp} from '../types/authContext';
 import {useAuth} from './../context/AuthContext';
 import {ToastContainer} from 'react-toastify';
-import {toastError} from '../utils/toastNotification';
+import {toastError, toastSuccess} from '../utils/toastNotification';
+import {sleep} from '../utils/asyncUtils';
 function SignupForm() {
 	const [disableSignup, setDisableSignup] = useState<boolean>(true);
 	const {
@@ -14,6 +15,7 @@ function SignupForm() {
 		watch,
 		formState: {errors, isValid},
 		setError,
+		reset,
 		clearErrors
 	} = useForm<TSignUp>();
 	const {signup} = useAuth();
@@ -91,16 +93,18 @@ function SignupForm() {
 		try {
 			try {
 				await signup(data);
+				reset();
+				toastSuccess('Successfully processed details. Redirecting...');
+				await sleep(3000);
 				navigate('confirmation-email');
 			} catch (error) {
 				if (error instanceof Error) {
-					toastError('Unable to signup! Something went wrong!');
+					throw error;
 				}
 			}
-			console.log('Handle Signup');
 		} catch (error) {
 			if (error instanceof Error) {
-				console.log(error.message);
+				toastError(error.message);
 			}
 		}
 	};
@@ -116,12 +120,20 @@ function SignupForm() {
 					<FormControl isInvalid={errors.password && true}>
 						<FormLabel>Password</FormLabel>
 						<Input {...passwordReg()} type='password' placeholder='Password' />
-						<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+						<FormErrorMessage>
+							{errors.password && errors.password.message}
+						</FormErrorMessage>
 					</FormControl>
 					<FormControl isInvalid={errors.passwordCfm && true}>
 						<FormLabel htmlFor='passwordCfm'>Confirm Password</FormLabel>
-						<Input {...passwordCfmReg()} type='password' placeholder='Confirm Password' />
-						<FormErrorMessage>{errors.passwordCfm && errors.passwordCfm.message}</FormErrorMessage>
+						<Input
+							{...passwordCfmReg()}
+							type='password'
+							placeholder='Confirm Password'
+						/>
+						<FormErrorMessage>
+							{errors.passwordCfm && errors.passwordCfm.message}
+						</FormErrorMessage>
 					</FormControl>
 					<Button disabled={disableSignup} type='submit'>
 						Sign up
