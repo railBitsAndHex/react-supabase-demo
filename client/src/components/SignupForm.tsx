@@ -1,34 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import {
-	FormLabel,
-	FormControl,
-	Input,
-	Button,
-	FormErrorMessage,
-	Stack
-} from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
-import { TSignUp } from '../types/authContext';
-import { useAuth } from './../context/AuthContext';
-import { ToastContainer } from 'react-toastify';
-import { toastError } from '../utils/toastNotification';
+import React, {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {FormLabel, FormControl, Input, Button, FormErrorMessage, Stack} from '@chakra-ui/react';
+import {useNavigate} from 'react-router-dom';
+import {TSignUp} from '../types/authContext';
+import {useAuth} from './../context/AuthContext';
+import {ToastContainer} from 'react-toastify';
+import {toastError, toastSuccess} from '../utils/toastNotification';
+import {sleep} from '../utils/asyncUtils';
 function SignupForm() {
 	const [disableSignup, setDisableSignup] = useState<boolean>(true);
 	const {
 		register,
 		handleSubmit,
 		watch,
-		formState: { errors, isValid },
+		formState: {errors, isValid},
 		setError,
+		reset,
 		clearErrors
 	} = useForm<TSignUp>();
-	const { signup } = useAuth();
+	const {signup} = useAuth();
 	const navigate = useNavigate();
 	useEffect(() => {
-		Object.keys(errors).length === 0
-			? setDisableSignup(false)
-			: setDisableSignup(true);
+		Object.keys(errors).length === 0 ? setDisableSignup(false) : setDisableSignup(true);
 	}, [Object.keys(errors).length]);
 
 	const emailReg = () => {
@@ -38,7 +31,7 @@ function SignupForm() {
 				message: 'Email is required'
 			},
 			pattern: {
-				value: /[0-9]*[a-z]+[0-9]*@([a-z]+\.)+/,
+				value: /[0-9]*[a-z]+[0-9]*@([a-z]+[0-9]*[a-z]+\.)+/,
 				message: 'Please enter a valid email format'
 			}
 		});
@@ -48,6 +41,10 @@ function SignupForm() {
 			required: {
 				value: true,
 				message: 'Password field is required'
+			},
+			minLength: {
+				value: 6,
+				message: 'Please enter a password of minimum 6 characters!'
 			},
 			validate: (value: string) => {
 				const pwCfmValue: string = watch().passwordCfm;
@@ -79,6 +76,7 @@ function SignupForm() {
 					});
 				}
 			},
+
 			validate: (value: string) => {
 				const pwValue: string = watch().password;
 				if (pwValue === value) {
@@ -95,51 +93,39 @@ function SignupForm() {
 		try {
 			try {
 				await signup(data);
+				reset();
+				toastSuccess('Successfully processed details. Redirecting...');
+				await sleep(3000);
 				navigate('confirmation-email');
 			} catch (error) {
 				if (error instanceof Error) {
-					toastError('Unable to signup! Something went wrong!');
+					throw error;
 				}
 			}
-			console.log('Handle Signup');
 		} catch (error) {
 			if (error instanceof Error) {
-				console.log(error.message);
+				toastError(error.message);
 			}
 		}
 	};
 	return (
 		<>
-			<form
-				onSubmit={handleSubmit((data: TSignUp) => handleSignUp(data))}
-			>
+			<form onSubmit={handleSubmit((data: TSignUp) => handleSignUp(data))}>
 				<Stack spacing={3}>
 					<FormControl isInvalid={errors.email && true}>
 						<FormLabel>Email</FormLabel>
-						<Input
-							{...emailReg()}
-							type='email'
-							placeholder='Email'
-						/>
-						<FormErrorMessage>
-							{errors.email && errors.email.message}
-						</FormErrorMessage>
+						<Input {...emailReg()} type='email' placeholder='Email' />
+						<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
 					</FormControl>
 					<FormControl isInvalid={errors.password && true}>
 						<FormLabel>Password</FormLabel>
-						<Input
-							{...passwordReg()}
-							type='password'
-							placeholder='Password'
-						/>
+						<Input {...passwordReg()} type='password' placeholder='Password' />
 						<FormErrorMessage>
 							{errors.password && errors.password.message}
 						</FormErrorMessage>
 					</FormControl>
 					<FormControl isInvalid={errors.passwordCfm && true}>
-						<FormLabel htmlFor='passwordCfm'>
-							Confirm Password
-						</FormLabel>
+						<FormLabel htmlFor='passwordCfm'>Confirm Password</FormLabel>
 						<Input
 							{...passwordCfmReg()}
 							type='password'

@@ -17,4 +17,11 @@ const validation3 = (args1: string, args2: string, args3: string) => {
     return validation2(args1, args2) && validation1(args3);
 }
 
-export {validation1, validation2, validation3}
+const validationLen1 = (args1: string, lenVal: number) => {
+    return args1.length >= lenVal;
+}
+const validationLen2 = (args1: string, args2: string, lenVal1: number, lenVal2: number) => {
+    return validationLen1(args1, lenVal1) && validationLen1(args2, lenVal2);
+}
+
+export {validation1, validation2, validation3, validationLen1, validationLen2}
