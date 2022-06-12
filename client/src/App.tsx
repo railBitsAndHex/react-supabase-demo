@@ -1,6 +1,7 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import './App.css';
+import Navbar from './components/Navbar';
 import {AuthProvider} from './context/AuthContext';
 import EmailConfirm from './pages/EmailConfirm';
 import Home from './pages/Home';
@@ -13,8 +14,9 @@ function App() {
 		<>
 			<AuthProvider>
 				<main>
+					<Navbar/>
 					<Routes>
-						<Route path='/' element={<Home />} />
+						<Route path='/home' element={<Home />} />
 						<Route path='/login' element={<Login />} />
 						<Route path='/signup' element={<Signup />} />
 						<Route path='signup/confirmation-email' element={<EmailConfirm />} />
