@@ -4,8 +4,9 @@ import {FormErrorMessage, FormLabel, FormControl, Input, Button} from '@chakra-u
 import {TLogin} from '../types/authContext';
 import {useAuth} from '../context/AuthContext';
 import {useNavigate} from 'react-router-dom';
-import {toastError} from '../utils/toastNotification';
+import {toastError, toastSuccess} from '../utils/toastNotification';
 import {ToastContainer} from 'react-toastify';
+import {sleep} from '../utils/asyncUtils';
 function LoginForm() {
 	const {
 		register,
@@ -37,6 +38,8 @@ function LoginForm() {
 			try {
 				await login(data);
 				reset();
+				toastSuccess('Successfully log in!.');
+				await sleep(3000);
 				navigate('/profile');
 			} catch (error: unknown) {
 				if (error instanceof Error) {
