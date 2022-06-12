@@ -88,7 +88,6 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 				}
 				if (data === null || Object.keys(data).length == 0 || data.length === 0) {
 					const errMessage = 'User does not exists. Please create an account!';
-					toastError(errMessage);
 					throw new Error(errMessage);
 				}
 			} catch (error: unknown) {
@@ -103,15 +102,12 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 					password: password
 				});
 				if (error) {
-					console.log(error.message);
-					toastError(error.message);
 					throw new Error(error.message);
 				}
 				setUser(user);
 				setSession(session);
 			} catch (error: unknown) {
 				if (error instanceof Error) {
-					toastError(error.message);
 					throw error;
 				}
 			}
