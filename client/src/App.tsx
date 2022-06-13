@@ -21,6 +21,7 @@ function App() {
 						<Route path='/signup' element={<Signup />} />
 						<Route path='signup/confirmation-email' element={<EmailConfirm />} />
 						<Route path='/profile' element={<Profile />} />
+						<Route path='/*' element={<Home/>}/>
 					</Routes>
 				</main>
 			</AuthProvider>
