@@ -39,7 +39,7 @@ function LoginForm() {
 				await login(data);
 				reset();
 				toastSuccess('Successfully log in!.', 800);
-				await sleep(3000);
+				await sleep(850);
 				navigate('/profile');
 			} catch (error: unknown) {
 				if (error instanceof Error) {

@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import LogoutBtn from './LogoutBtn';
 import "../styles/navbar.modules.css"
 import { Link, NavLink } from 'react-router-dom';
+
 function Navbar() {
 	const {user, session} = useAuth()
 	const authStatus = user && session;

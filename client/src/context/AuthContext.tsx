@@ -36,7 +36,6 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 					.filter('email_confirmed_at', 'lt', 'now');
 				if (error) {
 					toastError(error.message, 1000);
-					throw new Error(error.message);
 				}
 				if (data !== null && data.length > 0) {
 					const errorMessage = 'This email has already been taken.';

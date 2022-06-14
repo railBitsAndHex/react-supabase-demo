@@ -9,6 +9,7 @@ function LogoutBtn() {
 	const {logout} = useAuth();
 	const navigate = useNavigate();
 	const handleLogout = async () => {
+    try{
 		try {
 			await logout();
 			toastSuccess('Logging out', 200);
@@ -17,6 +18,9 @@ function LogoutBtn() {
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				toastError(error.message, 1000);
+		}} catch (error: unknown) {
+			if (error instanceof Error) {
+				toastError(error.message);
 			}
 		}
 	};
