@@ -13,7 +13,7 @@
 }
 .login-div-1{
     width: 30%;
-    height: 40%;
+    height: 50%;
     min-height: 40%;
     min-width: 30%;
     max-width: 60%;
@@ -44,7 +44,7 @@
     border-radius: 20px;
 }
 .login-btn:hover {
-    background-color: #6c757d;
+    background-color: #000000;
     transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1000ms;
     color:#ffffff;
 }
@@ -55,6 +55,9 @@
     text-decoration: underline;
     font-weight: 500;
     color:#2d6a4f
+}
+.navlink:hover{
+    color: #06d6a0
 }
 .login-div-2{
     display: flex;
