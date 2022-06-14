@@ -4,6 +4,11 @@ import {useAuth} from './../context/AuthContext';
 import {toastError, toastSuccess} from '../utils/toastNotification';
 import { TProfile } from '../types/profileTypes';
 import { FormControl, FormErrorMessage, FormLabel, InputLeftAddon, Stack, Input, InputGroup, Textarea, Button } from '@chakra-ui/react';
+import { upsertProfile } from '../utils/profileEdit';
+import { sleep } from '../utils/asyncUtils';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from './../supabaseClient';
+import { ToastContainer } from 'react-toastify';
 function ProfileEditForm() {
     const {
 		register,
@@ -14,7 +19,9 @@ function ProfileEditForm() {
 		reset,
 		clearErrors
 	} = useForm<TProfile>();
-
+    const navigate = useNavigate();
+    const {user} = useAuth();
+    console.log(user)
     const [disableUpdate, setDisableUpdate] = useState<boolean>(true);
 
     useEffect(() => {
@@ -38,7 +45,6 @@ function ProfileEditForm() {
             },
             onChange: (e) => {
                 const unameVal = e.target.value;
-                console.log(`Username: ${unameVal}`)
                 const unameLen = unameVal.length;
                 switch(true) {
                     case (unameLen < 5):
@@ -68,7 +74,6 @@ function ProfileEditForm() {
             },
             onChange: (e) => {
                 const descVal = e.target.value;
-                console.log(descVal);
                 if (descVal.length > 100) {
                     setError('description', {
                         type: 'custom',
@@ -81,8 +86,26 @@ function ProfileEditForm() {
             }
         })
     }
-    const handleUpdate = (data: TProfile) => {
-        
+    const handleUpdate = async(data: TProfile) => {
+        try {
+            try{
+                console.log(user.id)
+                const dataUpdate = {...data, id: user.id}
+                await upsertProfile(dataUpdate);
+                reset();
+                toastSuccess('Successfully updated profile! Redirecting to profile page...')
+                await sleep(3000);
+                navigate('/profile')
+            }catch(error:unknown) {
+                if (error instanceof Error) {
+                    throw error;
+                }
+            }
+        }catch(error:unknown) {
+            if (error instanceof Error) {
+                toastError(error.message);
+            }
+        }
     }
     return (
         <>
@@ -114,6 +137,7 @@ function ProfileEditForm() {
                 <Button disabled={disableUpdate} type='submit'>Update Profile</Button>
             </Stack>
         </form>
+        <ToastContainer/>
     </>)
 }
 
