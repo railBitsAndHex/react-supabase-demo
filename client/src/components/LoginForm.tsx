@@ -3,10 +3,11 @@ import {useForm, SubmitHandler} from 'react-hook-form';
 import {FormErrorMessage, FormLabel, FormControl, Input, Button} from '@chakra-ui/react';
 import {TLogin} from '../types/authContext';
 import {useAuth} from '../context/AuthContext';
-import {useNavigate} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import {toastError, toastSuccess} from '../utils/toastNotification';
 import {ToastContainer} from 'react-toastify';
 import {sleep} from '../utils/asyncUtils';
+import { Link } from 'react-router-dom';
 function LoginForm() {
 	const {
 		register,
@@ -58,16 +59,21 @@ function LoginForm() {
 	return (
 		<>
 			<form onSubmit={handleSubmit((data) => handleLogin(data))}>
-				<FormControl>
+				<FormControl className='form-control'>
 					<FormLabel>Email</FormLabel>
-					<Input placeholder='email' type='email' {...emailRegister()} />
+					<Input className='login-input' placeholder='email' type='email' {...emailRegister()} />
 					{errors.email && errors.email.message}
+				</FormControl>
+				<FormControl className='form-control'>
 					<FormLabel>Password</FormLabel>
-					<Input placeholder='password' type='password' {...pwRegister()} />
+					<Input className='login-input' placeholder='password' type='password' {...pwRegister()} />
 					{errors.password && errors.password.message}
 				</FormControl>
-				<Button type='submit'>Login</Button>
+				<button className='login-btn form-control' type='submit'>Login</button>
 			</form>
+			<div className='login-div-2'>Don't have an account? 
+				<NavLink className="navlink" to="/signup">Create</NavLink> <NavLink className="navlink" to="/#">Reset password</NavLink>
+			</div>
 			<ToastContainer />
 		</>
 	);
