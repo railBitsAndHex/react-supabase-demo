@@ -7,6 +7,7 @@ import EmailConfirm from './pages/EmailConfirm';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
+import ProfileEdit from './pages/ProfileEdit';
 import Signup from './pages/Signup';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 						<Route path='/signup' element={<Signup />} />
 						<Route path='signup/confirmation-email' element={<EmailConfirm />} />
 						<Route path='/profile' element={<Profile />} />
+						<Route path='/profile/edit' element={<ProfileEdit/>}/>
 						<Route path='/*' element={<Home/>}/>
 					</Routes>
 				</main>
