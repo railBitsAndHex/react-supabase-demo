@@ -38,18 +38,18 @@ function LoginForm() {
 			try {
 				await login(data);
 				reset();
-				toastSuccess('Successfully log in!.');
-				await sleep(3000);
+				toastSuccess('Successfully log in!.', 800);
+				await sleep(850);
 				navigate('/profile');
 			} catch (error: unknown) {
 				if (error instanceof Error) {
-					toastError(error.message);
+					toastError(error.message, 850);
 					reset();
 				}
 			}
 		} catch (error: unknown) {
 			if (error instanceof Error) {
-				toastError('Unable to login! Something went wrong.');
+				toastError('Unable to login! Something went wrong.', 1000);
 				console.log(error.message);
 			}
 		}
