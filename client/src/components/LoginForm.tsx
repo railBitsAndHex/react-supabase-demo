@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {FormErrorMessage, FormLabel, FormControl, Input, Button} from '@chakra-ui/react';
 import {TLogin} from '../types/authContext';
@@ -18,6 +18,10 @@ function LoginForm() {
 	} = useForm<TLogin>();
 	const {login, user, session} = useAuth();
 	const navigate = useNavigate();
+	const [disableLogin, setDisableLogin] = useState<boolean>(true);
+	useEffect(() => {
+		Object.keys(errors).length === 0 ? setDisableLogin(false) : setDisableLogin(true);
+	}, [Object.keys(errors).length]);
 	console.log(errors);
 	const emailRegister = () => {
 		return register('email', {
@@ -30,7 +34,10 @@ function LoginForm() {
 	};
 	const pwRegister = () => {
 		return register('password', {
-			required: 'Password is required'
+			required:{
+				value:true,
+				message: "This field is required."
+			}
 		});
 	};
 
@@ -41,6 +48,7 @@ function LoginForm() {
 				reset();
 				toastSuccess('Successfully log in!.', 800);
 				await sleep(850);
+				reset();
 				navigate('/profile');
 			} catch (error: unknown) {
 				if (error instanceof Error) {
@@ -59,17 +67,17 @@ function LoginForm() {
 	return (
 		<>
 			<form onSubmit={handleSubmit((data) => handleLogin(data))}>
-				<FormControl className='form-control'>
+				<FormControl className='form-control' isInvalid= {errors.email && true}>
 					<FormLabel>Email</FormLabel>
 					<Input className='login-input' placeholder='email' type='email' {...emailRegister()} />
-					{errors.email && errors.email.message}
+					<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
 				</FormControl>
-				<FormControl className='form-control'>
+				<FormControl className='form-control' isInvalid={errors.password && true}>
 					<FormLabel>Password</FormLabel>
 					<Input className='login-input' placeholder='password' type='password' {...pwRegister()} />
-					{errors.password && errors.password.message}
+					<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
 				</FormControl>
-				<button className='login-btn form-control' type='submit'>Login</button>
+				<button disabled={disableLogin} className='login-btn form-control' type='submit'>Login</button>
 			</form>
 			<div className='login-div-2'>Don't have an account? 
 				<NavLink className="navlink" to="/signup">Create</NavLink> <NavLink className="navlink" to="/#">Reset password</NavLink>
