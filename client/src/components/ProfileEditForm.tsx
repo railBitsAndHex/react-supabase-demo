@@ -93,8 +93,8 @@ function ProfileEditForm() {
                 const dataUpdate = {...data, id: user.id}
                 await upsertProfile(dataUpdate);
                 reset();
-                toastSuccess('Successfully updated profile! Redirecting to profile page...')
-                await sleep(3000);
+                toastSuccess('Successfully updated profile! Redirecting to profile page...', 800)
+                await sleep(850);
                 navigate('/profile')
             }catch(error:unknown) {
                 if (error instanceof Error) {
@@ -103,7 +103,7 @@ function ProfileEditForm() {
             }
         }catch(error:unknown) {
             if (error instanceof Error) {
-                toastError(error.message);
+                toastError(error.message, 1000);
             }
         }
     }

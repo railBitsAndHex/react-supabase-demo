@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify';
-const toastError = (errorMsg: string) => {
+const toastError = (errorMsg: string, timeClose: number) => {
     toast.error(errorMsg, {
         position: toast.POSITION.BOTTOM_CENTER,
-        autoClose: 2900,
+        autoClose: timeClose,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true, 
@@ -10,10 +10,10 @@ const toastError = (errorMsg: string) => {
         theme: 'dark'
     })
 }
-const toastSuccess = (successMsg: string) => {
+const toastSuccess = (successMsg: string, timeClose: number) => {
     toast.success(successMsg, {
         position: toast.POSITION.TOP_CENTER,
-        autoClose: 2900,
+        autoClose: timeClose,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: false,

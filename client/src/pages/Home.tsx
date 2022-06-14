@@ -1,5 +1,4 @@
 import React from 'react';
-import { supabase } from './../supabaseClient';
 import { useAuth } from './../context/AuthContext';
 
 import "../styles/homepage.modules.css"

@@ -19,11 +19,11 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 	const signup = async (credentials: TSignUp) => {
 		const {email, password, passwordCfm} = credentials;
 		if (!validation3(email, password, passwordCfm)) {
-			toastError('Invalid params entered!');
+			toastError('Invalid params entered!',1000);
 			return;
 		}
 		if (!validationLen1(password, 6)) {
-			toastError('Password too short. Min. length required 6 characters');
+			toastError('Password too short. Min. length required 6 characters',1000);
 			return;
 		}
 		try {
@@ -35,7 +35,7 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 					.eq('email', email)
 					.filter('email_confirmed_at', 'lt', 'now');
 				if (error) {
-					toastError(error.message);
+					toastError(error.message, 1000);
 					throw new Error(error.message);
 				}
 				if (data !== null && data.length > 0) {

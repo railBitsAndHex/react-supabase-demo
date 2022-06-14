@@ -94,8 +94,8 @@ function SignupForm() {
 			try {
 				await signup(data);
 				reset();
-				toastSuccess('Successfully processed details. Redirecting...');
-				await sleep(3000);
+				toastSuccess('Successfully processed details. Redirecting...', 800);
+				await sleep(850);
 				navigate('confirmation-email');
 			} catch (error) {
 				if (error instanceof Error) {
@@ -104,7 +104,7 @@ function SignupForm() {
 			}
 		} catch (error) {
 			if (error instanceof Error) {
-				toastError(error.message);
+				toastError(error.message,1000);
 			}
 		}
 	};
