@@ -4,7 +4,8 @@ import {
 	AuthStateInitial,
 	AuthPropsType,
 	TSignUp,
-	TLogin
+	TLogin,
+	TResetPassword
 } from './../types/authContext.d';
 import {supabase} from '../supabaseClient';
 import {toastError} from '../utils/toastNotification';
@@ -130,6 +131,56 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 			}
 		}
 	};
+	const resetPassword = async(data: TResetPassword) => {
+		const {email} = data;
+		try{
+			try{
+				const {data, error} = await supabase
+				.from('puser')
+				.select('*')
+				.eq('email', email)
+				.filter('email_confirmed_at', 'lt', 'now');
+
+				if (error)
+					throw error;
+				
+				if (data === null || Object.keys(data).length == 0 || data.length === 0) {
+					const errMessage = 'User does not exists. Please create an account!'
+					throw new Error(errMessage)
+				}
+			}
+			catch(error: unknown) {
+				if (error instanceof Error) {
+					throw error;
+				}
+			}
+		}
+		catch(error: unknown) {
+			if (error instanceof Error) {
+				throw error;
+			}
+		}
+		try{
+			try{
+				const { data, error } = await supabase.auth.api
+  				.resetPasswordForEmail(email);
+				if (error)
+					throw error;
+				console.log(data)
+			}
+			catch(error: unknown) {
+				if (error instanceof Error) {
+					toastError(error.message, 1000)
+				}
+			}
+		}
+		catch(error: unknown) {
+			if (error instanceof Error) {
+				// throw error;
+			}
+		}
+	}
+
 	useEffect(() => {
 		supabase.auth.onAuthStateChange((e, session) => {
 			supabase.auth.user() !== null ? setUser(supabase.auth.user()) : setUser(undefined);
@@ -149,7 +200,8 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 		sessionTrigger,
 		signup,
 		login,
-		logout
+		logout,
+		resetPassword
 	};
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
