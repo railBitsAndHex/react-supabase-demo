@@ -5,7 +5,8 @@ import {
 	AuthPropsType,
 	TSignUp,
 	TLogin,
-	TResetPassword
+	TResetPassword,
+	TResetPasswordEmail
 } from './../types/authContext.d';
 import {supabase} from '../supabaseClient';
 import {toastError} from '../utils/toastNotification';
@@ -131,7 +132,7 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 			}
 		}
 	};
-	const resetPassword = async(data: TResetPassword) => {
+	const resetPasswordEmail = async(data: TResetPasswordEmail) => {
 		const {email} = data;
 		try{
 			try{
@@ -163,7 +164,9 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 		try{
 			try{
 				const { data, error } = await supabase.auth.api
-  				.resetPasswordForEmail(email);
+  				.resetPasswordForEmail(email, {
+					redirectTo: "http://localhost:3000/login"
+				});
 				if (error)
 					throw error;
 				console.log(data)
@@ -180,7 +183,24 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 			}
 		}
 	}
+	const resetPassword = async(data: TResetPassword) => {
+		const {password, passwordCfm, accessToken} = data;
+		try {
+			if (password !== passwordCfm) {
+				throw new Error("Passwords do not match.")
+			}
+			const {error, data} = await supabase.auth.api
+			.updateUser(accessToken, {password: password});
+			if (error) 
+				throw error;
+		}
+		catch(error) {
+			if (error instanceof Error) {
+				toastError(error.message, 1000)
+			}
+		}
 
+	}
 	useEffect(() => {
 		supabase.auth.onAuthStateChange((e, session) => {
 			supabase.auth.user() !== null ? setUser(supabase.auth.user()) : setUser(undefined);
@@ -201,6 +221,7 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 		signup,
 		login,
 		logout,
+		resetPasswordEmail,
 		resetPassword
 	};
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
