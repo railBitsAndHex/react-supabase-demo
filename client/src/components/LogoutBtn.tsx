@@ -18,9 +18,12 @@ function LogoutBtn() {
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				toastError(error.message, 1000);
-		}} catch (error: unknown) {
+		}
+		} 
+	}
+	catch (error: unknown) {
 			if (error instanceof Error) {
-				toastError(error.message);
+				toastError(error.message, 1000);
 			}
 		}
 	};

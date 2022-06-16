@@ -4,7 +4,9 @@ import {
 	AuthStateInitial,
 	AuthPropsType,
 	TSignUp,
-	TLogin
+	TLogin,
+	TResetPassword,
+	TResetPasswordEmail
 } from './../types/authContext.d';
 import {supabase} from '../supabaseClient';
 import {toastError} from '../utils/toastNotification';
@@ -130,6 +132,79 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 			}
 		}
 	};
+	const resetPasswordEmail = async(data: TResetPasswordEmail) => {
+		const {email} = data;
+		try{
+			try{
+				const {data, error} = await supabase
+				.from('puser')
+				.select('*')
+				.eq('email', email)
+				.filter('email_confirmed_at', 'lt', 'now');
+
+				if (error)
+					throw error;
+				
+				if (data === null || Object.keys(data).length == 0 || data.length === 0) {
+					const errMessage = 'User does not exists. Please create an account!'
+					throw new Error(errMessage)
+				}
+			}
+			catch(error: unknown) {
+				if (error instanceof Error) {
+					throw error;
+				}
+			}
+		}
+		catch(error: unknown) {
+			if (error instanceof Error) {
+				throw error;
+			}
+		}
+		try{
+			try{
+				const { data, error } = await supabase.auth.api
+  				.resetPasswordForEmail(email, {
+					redirectTo: "http://localhost:3000/reset-password"
+				});
+				if (error)
+					throw error;
+				console.log(data)
+			}
+			catch(error: unknown) {
+				if (error instanceof Error) {
+					toastError(error.message, 1000)
+				}
+			}
+		}
+		catch(error: unknown) {
+			if (error instanceof Error) {
+				// throw error;
+			}
+		}
+	}
+	const resetPassword = async(data: TResetPassword) => {
+		const {password, passwordCfm} = data;
+		try {
+			if (password !== passwordCfm) {
+				throw new Error("Passwords do not match.")
+			}
+			try {
+				const {error, data} = await supabase.auth.update({password});
+				if (error) 
+					throw error;
+			}catch (error) {
+				if (error instanceof Error) 
+					toastError(error.message, 1000)
+			}
+		}
+		catch(error) {
+			if (error instanceof Error) {
+				toastError(error.message, 1000)
+			}
+		}
+
+	}
 	useEffect(() => {
 		supabase.auth.onAuthStateChange((e, session) => {
 			supabase.auth.user() !== null ? setUser(supabase.auth.user()) : setUser(undefined);
@@ -149,7 +224,9 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 		sessionTrigger,
 		signup,
 		login,
-		logout
+		logout,
+		resetPasswordEmail,
+		resetPassword
 	};
 	return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

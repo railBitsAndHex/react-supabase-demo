@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {FormLabel, FormControl, Input, Button, FormErrorMessage, Stack} from '@chakra-ui/react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, NavLink} from 'react-router-dom';
 import {TSignUp} from '../types/authContext';
 import {useAuth} from './../context/AuthContext';
 import {ToastContainer} from 'react-toastify';
 import {toastError, toastSuccess} from '../utils/toastNotification';
 import {sleep} from '../utils/asyncUtils';
+
 function SignupForm() {
 	const [disableSignup, setDisableSignup] = useState<boolean>(true);
 	const {
@@ -111,20 +112,19 @@ function SignupForm() {
 	return (
 		<>
 			<form onSubmit={handleSubmit((data: TSignUp) => handleSignUp(data))}>
-				<Stack spacing={3}>
-					<FormControl isInvalid={errors.email && true}>
+					<FormControl className='form-control' isInvalid={errors.email && true}>
 						<FormLabel>Email</FormLabel>
-						<Input {...emailReg()} type='email' placeholder='Email' />
+						<Input className='signup-input' {...emailReg()} type='email' placeholder='Email' />
 						<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
 					</FormControl>
-					<FormControl isInvalid={errors.password && true}>
+					<FormControl className='form-control' isInvalid={errors.password && true}>
 						<FormLabel>Password</FormLabel>
-						<Input {...passwordReg()} type='password' placeholder='Password' />
+						<Input className='signup-input' {...passwordReg()} type='password' placeholder='Password' />
 						<FormErrorMessage>
 							{errors.password && errors.password.message}
 						</FormErrorMessage>
 					</FormControl>
-					<FormControl isInvalid={errors.passwordCfm && true}>
+					<FormControl className='form-control' isInvalid={errors.passwordCfm && true}>
 						<FormLabel htmlFor='passwordCfm'>Confirm Password</FormLabel>
 						<Input
 							{...passwordCfmReg()}
@@ -135,11 +135,13 @@ function SignupForm() {
 							{errors.passwordCfm && errors.passwordCfm.message}
 						</FormErrorMessage>
 					</FormControl>
-					<Button disabled={disableSignup} type='submit'>
+					<button className='form-control signup-btn' disabled={disableSignup} type='submit'>
 						Sign up
-					</Button>
-				</Stack>
+					</button>
 			</form>
+			<div className='login-div-2'>Have an account? 
+				<NavLink className="navlink" to="/login">Login</NavLink> <NavLink className="navlink" to="/reset-password">Reset password</NavLink>
+			</div>
 			<ToastContainer />
 		</>
 	);

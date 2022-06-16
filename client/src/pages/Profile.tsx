@@ -2,15 +2,17 @@ import React, {useState, useEffect} from 'react';
 import { useAuth } from './../context/AuthContext';
 import { supabase } from '../supabaseClient';
 import { toastError } from '../utils/toastNotification';
-import { dataAttr } from '@chakra-ui/utils';
 import {Link} from "react-router-dom"
+import { TProfile } from '../types/profileTypes';
 
 function Profile() {
 	const {user, session} = useAuth();
-	const [userData, setUserData] = useState<any[]>([])
+	const [userData, setUserData] = useState<[] | Array<TProfile>>([])
 	useEffect(() => {
 		const fetchProfileData = async(uid: string) => {
 			const {data, error} = await supabase.from('profiles')
+			.select(`*`)
+			.eq('id', user.id)
 			if(error) {
 				throw new Error("Unable to fetch user data!")
 			}
@@ -18,6 +20,7 @@ function Profile() {
 				console.log(data)
 				console.log(data)
 				setUserData(data);
+				console.log(userData)
 			}
 		} 
 		try {	
@@ -36,7 +39,27 @@ function Profile() {
 			</section>
 		</>
 	}
-	return <></>;
+	const {username, name, avatar_url, website, description} = userData[0];
+	return <>
+		<section>
+			<div>
+				<div>Username</div>
+				<div>{username === null ? <p>-</p> : <p>{'@'+username}</p>}</div>
+			</div>			
+			<div>
+				<div>Name</div>
+				<div>{name === null ? <p>-</p> : <p>{name}</p>}</div>
+			</div>					
+			<div>
+				<div>Website</div>
+				<div>{website === null ? <p>-</p> : <p>{website}</p>}</div>
+			</div>			
+			<div>
+				<div>Description</div>
+				<div>{description === null ? <p>-</p> : <p>{description}</p>}</div>
+			</div>			
+		</section>
+	</>;
 }
 
 export default Profile;
