@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import {Button} from '@chakra-ui/react';
 import {toastError, toastSuccess} from '../utils/toastNotification';
 import { sleep } from '../utils/asyncUtils';
+import { ToastContainer } from 'react-toastify';
 
 function LogoutBtn() {
 	const {logout} = useAuth();
@@ -30,6 +31,7 @@ function LogoutBtn() {
 	return (
 		<>
 			<Button onClick={handleLogout}>Logout</Button>
+			<ToastContainer/>
 		</>
 	);
 }

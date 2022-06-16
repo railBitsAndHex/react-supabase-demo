@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useForm } from 'react-hook-form';
-import { TResetPassword } from '../types/authContext';
+import { TResetPassword, TResetPasswordEmail } from '../types/authContext';
 import { FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import validator from "validator"
 import "../styles/resetPassword.modules.css"
@@ -17,8 +17,8 @@ function ResetPwFormEmail() {
 		formState: {errors, isValid},
 		reset,
 		clearErrors
-    } = useForm<TResetPassword>();
-	const {resetPassword} = useAuth()
+    } = useForm<TResetPasswordEmail>();
+	const {resetPasswordEmail} = useAuth()
 	const [resetDisabled, setResetDisabled] = useState<boolean>(false)
 	useEffect(() => {
 		Object.keys(errors).length === 0 ? setResetDisabled(false) : setResetDisabled(true)
@@ -39,12 +39,13 @@ function ResetPwFormEmail() {
 		});
 	};
 
-  const handleReset = async(data: TResetPassword) => {
+  const handleReset = async(data: TResetPasswordEmail) => {
 	try {
 		try {
-			await resetPassword(data);
+			await resetPasswordEmail(data);
 			toastSuccess('A link to reset your password has been sent to your email.', 800);
 			sleep(850);
+			reset();
 		}
 		catch (error: unknown) {
 			if (error instanceof Error) {
@@ -60,7 +61,7 @@ function ResetPwFormEmail() {
   }
   return (
     <>
-      <form onSubmit={handleSubmit((data: TResetPassword) => handleReset(data))}>
+      <form onSubmit={handleSubmit((data: TResetPasswordEmail) => handleReset(data))}>
         <FormControl className='form-control' isInvalid={errors.email && true}>
 			<div id='resetpw-fcontrol-div-1'>
 				<FormLabel id='resetpw-email-label'>Email</FormLabel>
