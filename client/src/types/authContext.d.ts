@@ -14,7 +14,6 @@ export type TResetPasswordEmail = {
 export type TResetPassword = {
     password: string,
     passwordCfm: string,
-    accessToken: string
 }
 export interface IAuthContext {
     user: any,

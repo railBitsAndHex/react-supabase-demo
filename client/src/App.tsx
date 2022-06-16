@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import Signup from './pages/Signup';
+import ResetPasswordEmail from './pages/ResetPasswordEmail';
 import ResetPassword from './pages/ResetPassword';
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
 						<Route path='/login' element={<Login />} />
 						<Route path='/signup' element={<Signup />} />
 						<Route path='signup/confirmation-email' element={<EmailConfirm />} />
-						<Route path='/reset-password' element={<ResetPassword/>}/>
+						<Route path='/forgot-password' element={<ResetPasswordEmail/>}/>
+						<Route path='/reset-password' element={<ResetPassword/>} />
 						<Route path='/profile' element={<Profile />} />
 						<Route path='/profile/edit' element={<ProfileEdit/>}/>
 						<Route path='/*' element={<Home/>}/>

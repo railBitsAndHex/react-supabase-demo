@@ -165,7 +165,7 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 			try{
 				const { data, error } = await supabase.auth.api
   				.resetPasswordForEmail(email, {
-					redirectTo: "http://localhost:3000/login"
+					redirectTo: "http://localhost:3000/reset-password"
 				});
 				if (error)
 					throw error;
@@ -184,15 +184,19 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 		}
 	}
 	const resetPassword = async(data: TResetPassword) => {
-		const {password, passwordCfm, accessToken} = data;
+		const {password, passwordCfm} = data;
 		try {
 			if (password !== passwordCfm) {
 				throw new Error("Passwords do not match.")
 			}
-			const {error, data} = await supabase.auth.api
-			.updateUser(accessToken, {password: password});
-			if (error) 
-				throw error;
+			try {
+				const {error, data} = await supabase.auth.update({password});
+				if (error) 
+					throw error;
+			}catch (error) {
+				if (error instanceof Error) 
+					toastError(error.message, 1000)
+			}
 		}
 		catch(error) {
 			if (error instanceof Error) {
