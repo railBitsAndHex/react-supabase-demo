@@ -23,7 +23,25 @@
     font-size: 1.2em;
     font-weight: 600;
 }
-.homepage-login-rdr-btn{
+.homepage-rdr-btn{
     margin-top: 15px;
-    color: #2d6a4f;
+    color: #06d6a0;
+}
+.rdr-btn-div {
+    width: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+#login-rdr:hover {
+    background-color: #06d6a0;
+    color:white
+}
+#signup-rdr {
+    background-color: #06d6a0;
+    color:white
+}
+#signup-rdr:hover {
+    background-color: #ffffff;
+    color: #06d6a0
 }
