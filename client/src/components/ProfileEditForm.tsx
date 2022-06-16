@@ -7,7 +7,6 @@ import { FormControl, FormErrorMessage, FormLabel, InputLeftAddon, Stack, Input,
 import { upsertProfile } from '../utils/profileEdit';
 import { sleep } from '../utils/asyncUtils';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from './../supabaseClient';
 import { ToastContainer } from 'react-toastify';
 function ProfileEditForm() {
     const {
@@ -21,7 +20,6 @@ function ProfileEditForm() {
 	} = useForm<TProfile>();
     const navigate = useNavigate();
     const {user} = useAuth();
-    console.log(user)
     const [disableUpdate, setDisableUpdate] = useState<boolean>(true);
 
     useEffect(() => {
@@ -66,7 +64,7 @@ function ProfileEditForm() {
             }
         })
     }
-    const desriptionReg = () => {
+    const descriptionReg = () => {
         return register('description', {
             maxLength: {
                 value: 100,
@@ -131,7 +129,7 @@ function ProfileEditForm() {
                 </FormControl>
                 <FormControl isInvalid={errors.description && true}>
                     <FormLabel>Description</FormLabel>
-                    <Textarea {...desriptionReg()} placeholder='Write a short description of yourself here (max 100 char)'></Textarea>
+                    <Textarea {...descriptionReg()} placeholder='Write a short description of yourself here (max 100 char)'></Textarea>
                     <FormErrorMessage>{errors.description && errors.description.message}</FormErrorMessage>
                 </FormControl>
                 <Button disabled={disableUpdate} type='submit'>Update Profile</Button>

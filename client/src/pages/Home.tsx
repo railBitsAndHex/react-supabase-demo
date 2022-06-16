@@ -14,7 +14,9 @@ function Home() {
 					<div className='homepage-div-1'>
 						<h2 className='homepage-title'>React Supabase Demo</h2>
 						<p className='homepage-subtitle1'>Demo for using Supabase with React</p>
-						{authState ? <p>Welcome {user.email}</p> : <a href="/login"><Button className='homepage-login-rdr-btn' height={`50px`} width={'100px'} fontSize={'20px'} fontWeight={`bold`}>Login</Button></a>}
+						{authState ? <p>Welcome {user.email}</p> : <div className='rdr-btn-div'><a href="/login"><Button id='login-rdr' className='homepage-rdr-btn' height={`50px`} width={'100px'} fontSize={'20px'} fontWeight={`bold`}>Login</Button></a>
+						<a href="/signup"><Button className='homepage-rdr-btn' id='signup-rdr' height={`50px`} width={'100px'} fontSize={'20px'} fontWeight={`bold`}>Signup</Button></a>
+						</div>}
 					</div>
 				</section>
 			</>

@@ -80,7 +80,7 @@ function LoginForm() {
 				<button disabled={disableLogin} className='login-btn form-control' type='submit'>Login</button>
 			</form>
 			<div className='login-div-2'>Don't have an account? 
-				<NavLink className="navlink" to="/signup">Create</NavLink> <NavLink className="navlink" to="/reset-password">Reset password</NavLink>
+				<NavLink className="navlink" to="/signup">Create Account</NavLink> <NavLink className="navlink" to="/forgot-password">Reset password</NavLink>
 			</div>
 			<ToastContainer />
 		</>

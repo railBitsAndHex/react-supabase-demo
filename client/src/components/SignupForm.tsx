@@ -140,7 +140,7 @@ function SignupForm() {
 					</button>
 			</form>
 			<div className='login-div-2'>Have an account? 
-				<NavLink className="navlink" to="/login">Login</NavLink> <NavLink className="navlink" to="/reset-password">Reset password</NavLink>
+				<NavLink className="navlink" to="/login">Login</NavLink> <NavLink className="navlink" to="/forgot-password">Reset password</NavLink>
 			</div>
 			<ToastContainer />
 		</>
