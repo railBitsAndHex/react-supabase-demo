@@ -12,10 +12,10 @@ function Navbar() {
 		  {authStatus && 
 			<header className='nv-header'>
 				<nav>
-					<h1 className='nav-brand'><a href='/home'>React Supabase Demo</a></h1>
+					<h1 className='nav-brand'><Link to='/home'>React Supabase Demo</Link></h1>
 					<ul className='nav-links'>
-						<li><NavLink to="/profile">Profile</NavLink></li>
-						<li><NavLink to="/#">Edit Profile</NavLink></li>
+						<li><Link to="/profile">Profile</Link></li>
+						<li><Link to="/profile/edit">Edit Profile</Link></li>
 						<li><LogoutBtn/></li>
 					</ul>
 				</nav>

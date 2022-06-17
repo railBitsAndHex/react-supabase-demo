@@ -4,7 +4,8 @@ import {useNavigate} from 'react-router-dom';
 import {Button} from '@chakra-ui/react';
 import {toastError, toastSuccess} from '../utils/toastNotification';
 import { sleep } from '../utils/asyncUtils';
-
+import { ToastContainer } from 'react-toastify';
+import "../styles/logoutbtn.modules.css"
 function LogoutBtn() {
 	const {logout} = useAuth();
 	const navigate = useNavigate();
@@ -18,15 +19,21 @@ function LogoutBtn() {
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				toastError(error.message, 1000);
-		}} catch (error: unknown) {
+		}
+		} 
+	}
+	catch (error: unknown) {
 			if (error instanceof Error) {
-				toastError(error.message);
+				toastError(error.message, 1000);
 			}
 		}
 	};
 	return (
 		<>
-			<Button onClick={handleLogout}>Logout</Button>
+			<button className='logout-btn' onClick={handleLogout}>
+				Logout
+			</button>
+			<ToastContainer/>
 		</>
 	);
 }
