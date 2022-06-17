@@ -1,0 +1,52 @@
+.profile-edit-sect-1 {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
+    align-items: center;
+}
+#profile-edit-h2 {
+    font-size: 3em;
+    font-weight: 700;
+    color: #06d6a0;
+}
+.profile-edit-div-1 {
+    width: 50%;
+    margin-top: 2em; 
+}
+.profile-edit-form-control {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    margin-bottom: 2em;
+}
+.profile-edit-input {
+    grid-column: 2;
+    border-radius: 8px;
+}
+#uname-input,
+#name-input,
+#website-input {
+    background-color: white;
+}
+.profile-edit-desc {
+    display: flex;
+    flex-direction: column;
+}
+ .profile-edit-label {
+    color: white;
+    font-size: 1.25em;
+    font-weight: 600;
+ }
+ #profile-edit-textarea {
+    background-color: white;
+    height: 8em;
+ }
+ #update-profile-btn {
+    width: 100%;
+    background-color: #06d6a0;
+    font-weight: 700;
+ }
+ #update-profile-btn:hover {
+    background-color: white;
+ }
