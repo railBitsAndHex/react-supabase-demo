@@ -134,4 +134,3 @@ function ResetPwFormPassword() {
 
 export default ResetPwFormPassword
 
-// https://zmefsccnvyhbacecpxnu.supabase.co/auth/v1/verify?token=fymuqofqikvbyxbhcdyd&type=recovery&redirect_to=http://localhost:3000/login
