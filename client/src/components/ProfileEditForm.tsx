@@ -96,8 +96,6 @@ function ProfileEditForm() {
             // },
             onChange: (e) => {
                 const descValue = e.target.value;
-                console.log(descValue)
-                console.log(errors.website?.message)
                 if (descValue === "" || isURL(descValue)) {
                     clearErrors(['website']);
                     return;
