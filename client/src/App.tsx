@@ -22,7 +22,7 @@ function App() {
 						<Route path='/home' element={<Home />} />
 						<Route path='/login' element={<Login />} />
 						<Route path='/signup' element={<Signup />} />
-						<Route path='signup/confirmation-email' element={<EmailConfirm />} />
+						<Route path='/signup/confirmation-email' element={<EmailConfirm />} />
 						<Route path='/forgot-password' element={<ResetPasswordEmail/>}/>
 						<Route path='/reset-password' element={<ResetPassword/>} />
 						<Route path='/profile' element={<Profile />} />
