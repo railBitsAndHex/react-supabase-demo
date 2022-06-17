@@ -165,7 +165,7 @@ export const AuthProvider = ({children}: AuthPropsType) => {
 			try{
 				const { data, error } = await supabase.auth.api
   				.resetPasswordForEmail(email, {
-					redirectTo: "http://localhost:3000/reset-password"
+					redirectTo: "http://localhost:3000/protected/reset-password"
 				});
 				if (error)
 					throw error;

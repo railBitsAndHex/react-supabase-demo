@@ -11,6 +11,9 @@ import ProfileEdit from './pages/ProfileEdit';
 import Signup from './pages/Signup';
 import ResetPasswordEmail from './pages/ResetPasswordEmail';
 import ResetPassword from './pages/ResetPassword';
+import { ReactNode } from 'react';
+import PrivateRoute from './components/PrivateRoute';
+
 
 function App() {
 	return (
@@ -24,9 +27,11 @@ function App() {
 						<Route path='/signup' element={<Signup />} />
 						<Route path='/signup/confirmation-email' element={<EmailConfirm />} />
 						<Route path='/forgot-password' element={<ResetPasswordEmail/>}/>
-						<Route path='/reset-password' element={<ResetPassword/>} />
-						<Route path='/profile' element={<Profile />} />
-						<Route path='/profile/edit' element={<ProfileEdit/>}/>
+						<Route path='/protected' element={<PrivateRoute/>}>
+							<Route path='/protected/profile' element={<Profile />} />
+							<Route path='/protected/profile/edit' element={<ProfileEdit/>}/>
+							<Route path='/protected/reset-password' element={<ResetPassword/>} />
+						</Route>
 						<Route path='/*' element={<Home/>}/>
 					</Routes>
 				</main>
@@ -34,5 +39,4 @@ function App() {
 		</>
 	);
 }
-
 export default App;
