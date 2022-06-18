@@ -11,6 +11,11 @@
     font-size: 4em;
     font-weight: 700;
 }
+#homepage-login-title {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 20%;
+}
 .homepage-div-1{
     display: flex;
     width: 100%;

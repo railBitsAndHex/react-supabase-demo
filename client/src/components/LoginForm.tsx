@@ -49,7 +49,7 @@ function LoginForm() {
 				toastSuccess('Successfully log in!.', 800);
 				await sleep(850);
 				reset();
-				navigate('/profile');
+				navigate('/protected/profile');
 			} catch (error: unknown) {
 				if (error instanceof Error) {
 					toastError(error.message, 850);
