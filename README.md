@@ -1,4 +1,5 @@
 # react-supabase-demo
+![Alt text](appLoginPage.png)
 ### An example of a simple React App integrating email based authentication with Supabase.
 ---
 ## How to start the project  
